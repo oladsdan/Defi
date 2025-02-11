@@ -1,6 +1,11 @@
 require("@nomicfoundation/hardhat-toolbox");
 require('dotenv').config();
 
+// import "@nomicfoundation/hardhat-toolbox";
+// import dotenv from "dotenv";
+
+// dotenv.config();
+
 const SEPOLIA_API_URL = process.env.API_URL;
 const SEPOLIA_PRIVATE_KEY = process.env.PRIVATE_KEY;
 
