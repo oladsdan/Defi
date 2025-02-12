@@ -1,7 +1,37 @@
 // const {ethers} = require("hardhat");
 import pkg from "hardhat";
-const {ethers} = pkg;
+const {ethers, artifacts} = pkg;
 // require("@nomiclabs/hardhat-ethers");
+
+import fs from "fs"
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+
+
+//we want to saveContractToFrontend
+function saveContractToFrontend(contract, name) {
+    const contractsDir = __dirname + "/../src/frontend/contracts";
+
+    if (!fs.existsSync(contractsDir)) {
+        fs.mkdirSync(contractsDir);
+    }
+
+    fs.writeFileSync(
+        contractsDir + `/${name}-address.json`,
+        JSON.stringify({ address: contract.address }, undefined, 2)
+    );
+
+    const constractArtifact = artifacts.readArtifactSync(name);
+
+    fs.writeFileSync(
+        contractsDir + `/${name}.json`,
+        JSON.stringify(constractArtifact, null, 2)
+    );
+}
 
 
 
@@ -20,6 +50,8 @@ async function main() {
     console.log("same balance", ((await deployer.getBalance()).toString()));
 
     console.log("Deployer ETH balance: ", balance);
+
+    saveContractToFrontend(token, "SimpleDeFiToken");
     
 }
 
